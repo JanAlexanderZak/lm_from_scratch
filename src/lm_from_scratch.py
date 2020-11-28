@@ -1,21 +1,13 @@
-import numpy as np
+""" Building blocks of a linear regression:
+1. equation ( y = mx + b )
+2. features ( 1D )
+3. target
+4. model ( with weights and intercept )
+5. cost function ( with gradient )
+"""
 import matplotlib.pyplot as plt
-"""
-Building blocks of a linear regression
-    equation ( y = mx + b )
-    features ( 1D )
-    target
-    model ( with weights and intercept )
-    cost function ( with gradient )
-"""
-
-# 1 Feature: floor area
-# x_train_ = np.array([[1], [2], [4], ])
-x_train_ = np.array([1, 2, 3, 4, 5]).reshape(5, 1)
-
-# Target: price
-# y_train_ = np.array([1, 1, 3])
-y_train_ = np.array([1, 4, 7, 9, 11])
+import numpy as np
+from typing import Dict, List
 
 
 class LinearRegression:
@@ -33,12 +25,12 @@ class LinearRegression:
         self.cutoff: float = cutoff
         self.lr: float = lr
         self.num_epochs: int = num_epochs
-        self.callback_dict: dict = {
+        self.callback_dict: Dict[str, List[int]] = {
             'epoch': [],
             'cost': [],
             'delta_y': [],
             'y_predicted': [], }
-        self.r2 = 0
+        self.r2: float = 0.
 
     def run_epoch(self) -> np.ndarray:
         """ Gradient equation:
@@ -102,6 +94,7 @@ class LinearRegression:
         self.r2 = np.round(
             1 - ((n - 1) / (n - m - 1)) * (1 - np.cov(self.predict()) / np.cov(self.y_train)), 3)
         print(self.r2)
+        return self.r2
 
     def visualize(self) -> None:
         # Plot real data
@@ -118,6 +111,7 @@ class LinearRegression:
         plt.text(0, 0, f"R2: {self.r2}")
         plt.legend(loc='best')
         plt.show()
+
         # Plot loss
         plt.plot(self.callback_dict['epoch'], self.callback_dict['cost'])
         plt.title(f"Stopped at epoch #{self.callback_dict['epoch'][-1] + 1}")
@@ -127,6 +121,14 @@ class LinearRegression:
 
 
 if __name__ == '__main__':
+    # 1 Feature: floor area
+    # x_train_ = np.array([[1], [2], [4], ])
+    x_train_ = np.array([1, 2, 3, 4, 5]).reshape(5, 1)
+
+    # Target: price
+    # y_train_ = np.array([1, 1, 3])
+    y_train_ = np.array([1, 4, 7, 9, 11])
+
     lm = LinearRegression(x_train_, y_train_)
     lm.train()
     lm.r_squared()
