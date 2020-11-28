@@ -88,7 +88,10 @@ class LinearRegression:
         y_pred: np.ndarray = np.dot(self.x_train, self.weights) + self.intercept
         return y_pred
 
-    def r_squared(self) -> None:
+    def r_squared(self) -> float:
+        """ Calculates the r2 adj. value of the final prediction
+        :return: Rounded r2 adj.
+        """
         n = len(self.x_train)
         m = 1  # number of predicators / parameters
         self.r2 = np.round(
@@ -97,6 +100,9 @@ class LinearRegression:
         return self.r2
 
     def visualize(self) -> None:
+        """ Plots the lm line on the data-points
+        :return: None
+        """
         # Plot real data
         plt.scatter(self.x_train, self.y_train, label="Original values")
 
@@ -121,12 +127,7 @@ class LinearRegression:
 
 
 if __name__ == '__main__':
-    # 1 Feature: floor area
-    # x_train_ = np.array([[1], [2], [4], ])
     x_train_ = np.array([1, 2, 3, 4, 5]).reshape(5, 1)
-
-    # Target: price
-    # y_train_ = np.array([1, 1, 3])
     y_train_ = np.array([1, 4, 7, 9, 11])
 
     lm = LinearRegression(x_train_, y_train_)
