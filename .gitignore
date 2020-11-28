@@ -4,7 +4,7 @@
 .mypy_cache
 **/__pycache__/
 .egg-info
-python_venv
+.venv
 Lib
 tests/mypy
 tests/pytest
